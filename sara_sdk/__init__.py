@@ -11,7 +11,7 @@ DEFAULT_SESSION = None
 AUTH_URL = "https://auth.sara.synkar.com/oauth2/token"
 
 
-def setup_default_session(access_key, secret_access_key):
+def setup_default_session(access_key, secret_access_key, scope=None):
     """
     Set up a default session, using the access_key and secret_key and call auth to authenticate
 
@@ -22,11 +22,11 @@ def setup_default_session(access_key, secret_access_key):
     """
     global DEFAULT_SESSION
     DEFAULT_SESSION = Session(access_key=access_key,
-                              secret_access_key=secret_access_key)
+                              secret_access_key=secret_access_key, scope=scope)
     DEFAULT_SESSION.auth()
 
 
-def auth(access, secret):
+def auth(access, secret, scope=None):
     """
     Check if a default_session is defined if not call the setup_default_session to create a new session and auth
     If is already defined only call auth again to update keys
@@ -46,7 +46,8 @@ def auth(access, secret):
       Obs: Not valid tokens above, for example purpose only
     """
     if DEFAULT_SESSION is None:
-        setup_default_session(access_key=access, secret_access_key=secret)
+        setup_default_session(
+            access_key=access, secret_access_key=secret, scope=scope)
     else:
         DEFAULT_SESSION.auth()
 
