@@ -10,7 +10,9 @@ import sara_sdk
 
 class Session:
     """
-    Session model
+    Session model responsable to maintain data access, you can use the DEFAULT_SESSION by just
+    using the sara_sdk.auth() but can create other sessions using this class and passing on
+    others functions by the param session
 
     Args:
         access_key (string): Access Key used to authenticate the user on Sara API
