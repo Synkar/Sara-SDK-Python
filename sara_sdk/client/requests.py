@@ -8,12 +8,39 @@ import sara_sdk
 
 
 class Response:
+    """
+    Response Class to receive data from the API
+
+    Args:
+        status (number): Number of the status code send by the API
+        content (bytes): The content of the response in bytes
+
+    Returns:
+        Response: An instance of Response
+
+    Example:
+        >>> Response(status=200,content=bytes("content"))
+    """
 
     def __init__(self, status, content):
         self.status = status
         self.content = content
 
     def json(self):
+        """
+        Convert the content to JSON format
+
+        Args:
+            None
+
+        Returns:
+            The content of the Response as JSON
+
+        Example:
+            >>> result = Response.json()
+            >>> print(result)
+                { key: "data" }
+        """
         return loads(self.content.decode("utf-8"))
 
 
