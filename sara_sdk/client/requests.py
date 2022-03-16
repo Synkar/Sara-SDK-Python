@@ -18,6 +18,24 @@ class Response:
 
 
 def fetch(method, path, payload=None, query=None, session=None, version="v1"):
+    """
+    Function to do requests on sara api
+
+    Args:
+        method (Request): method of request from the python-requests package
+        path (string): the url path to where the request will be send
+        payload (Dict): payload to send through the request
+        query (string): query to insert on the end of url request
+        session (Session): session where to get the authorization (only needed if doens't want
+        to use the DEFAULT_SESSION)
+        version (string): the version of the api
+
+    Returns:
+        Response: the response of the API
+
+    Examples:
+        >>> fetch(method=post, path="iam/robots")
+    """
     url = os.getenv('API_URL') + version
 
     url = "{base_url}/{path}{query}".format(
