@@ -19,9 +19,10 @@ class Session:
         secret_access_key (string): Secret Key used to authenticate the user on Sara API
     """
 
-    def __init__(self, access_key, secret_access_key):
+    def __init__(self, access_key, secret_access_key, scope=None):
         self.access_key = access_key
         self.secret_access_key = secret_access_key
+        self.scope = scope
         self.access_token = ""
 
     def auth(self):
@@ -34,10 +35,18 @@ class Session:
         Examples:
             >>> result = Session.auth();
         """
-        url = sara_sdk.AUTH_URL
-        body = {
+        url = sara_sdk.AUTH_URL + \
+            "?client_id={client_id}".format(client_id=self.access_key)
+        if self.scope is not None:
+            body = {
+                "grant_type": "client_credentials",
+                "scope": self.scope
+            }
+        else:
+            body = {
+                "grant_type": "client_credentials",
+            }
 
-        }
         access_time = str(time())
 
         agent = "Python-{major}.{minor}.{micro}-Sara-SDK-{sdk_version}".format(
