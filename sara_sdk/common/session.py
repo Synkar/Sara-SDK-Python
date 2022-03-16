@@ -1,8 +1,8 @@
-from base64 import b64encode, standard_b64encode
+from base64 import b64encode
 from requests import post
 from time import time
 from sys import version_info as python_version
-from ..error import InternalServerError, InputErrors, UnknownError
+from ..error import InternalServerError, UnknownError, Error
 from ..client.requests import Response
 import os
 import sara_sdk
@@ -47,8 +47,6 @@ class Session:
                 "grant_type": "client_credentials",
             }
 
-        access_time = str(time())
-
         agent = "Python-{major}.{minor}.{micro}-Sara-SDK-{sdk_version}".format(
             major=python_version.major,
             minor=python_version.minor,
@@ -63,11 +61,10 @@ class Session:
             request = post(url=url,
                            data=body,
                            headers={
-                               "Access-Time": access_time,
-                               "Content-Type": "application/json",
+                               "Content-Type": "application/x-www-form-urlencoded",
                                "User-Agent": agent,
                                "Accept-Language": "en-US",
-                               "Authorization": standard_b64encode(auth)
+                               "Authorization": "Basic {}".format(b64encode(auth.encode()).decode())
                            },
                            timeout=sara_sdk.__timeout__)
         except Exception as exception:
@@ -78,15 +75,14 @@ class Session:
                             content=request.content)
 
         if response.content is not None:
-            payload = response.json()
-            self.access_token = payload.access_token
-            self.expires_in = payload.expires_in
-            self.token_type = payload.token_type
+            self.access_token = response.json()["access_token"]
+            self.expires_in = response.json()["expires_in"]
+            self.token_type = response.json()["token_type"]
 
         if response.status == 500:
             raise InternalServerError()
         if response.status == 400:
-            raise InputErrors(response.json()["errors"])
+            raise Error(response.status, response.json()["detail"])
         if response.status != 200:
             raise UnknownError(response.content)
 
