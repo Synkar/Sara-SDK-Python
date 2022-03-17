@@ -18,7 +18,7 @@ def list(session: Session = None, **filters):
       result (json): returns the result of the request as json
 
     Example:
-      >>> list(page=1,page_size=10,group="3ddc1eb5-8433-4eca-a95d-ff2d688cc2fc")
+      >>> list(page=1,page_size=10,name="group name")
     """
     result = _list(resource=RESOURCE, session=session, **filters)
     return result
