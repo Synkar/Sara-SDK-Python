@@ -19,7 +19,7 @@ def retrieve(resource, id, session=None, **kwargs):
     Example:
         >>> retrieve(resource="iam/robots", "09594aae-7e88-4c8b-b4e5-095c6e785509")
     """
-    path = "{endpoint}/{id}/".format(endpoint=resource, id=id)
+    path = "{endpoint}/{id}".format(endpoint=resource, id=id)
     json = fetch(method=get, path=path, query=kwargs, session=session).json()
     return json
 
@@ -84,7 +84,7 @@ def delete(resource, id, session=None):
     Example:
         >>> delete(resource="iam/robots", "09594aae-7e88-4c8b-b4e5-095c6e785509")
     """
-    path = "{endpoint}/{id}/".format(endpoint=resource, id=id)
+    path = "{endpoint}/{id}".format(endpoint=resource, id=id)
     json = fetch(method=_delete, path=path, session=session).json()
     return json
 
@@ -106,7 +106,7 @@ def update(resource, id, session=None, **payload):
     Example:
         >>> delete(resource="iam/robots", "09594aae-7e88-4c8b-b4e5-095c6e785509", payload=Dict)
     """
-    path = "{endpoint}/{id}/".format(endpoint=resource, id=id)
+    path = "{endpoint}/{id}".format(endpoint=resource, id=id)
     json = fetch(method=patch, path=path,
                  session=session, payload=payload).json()
     return json

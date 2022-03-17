@@ -76,7 +76,7 @@ class Session:
 
         if response.content is not None:
             self.access_token = response.json()["access_token"]
-            self.expires_in = response.json()["expires_in"]
+            self.expires_in = response.json()["expires_in"] + time()
             self.token_type = response.json()["token_type"]
 
         if response.status == 500:

@@ -65,7 +65,7 @@ def fetch(method, path, payload=None, query=None, session=None, version="v1"):
     """
     url = os.getenv('API_URL') + version
 
-    url = "{base_url}/{path}{query}".format(
+    url = "{base_url}/{path}/{query}".format(
         base_url=url, path=path, query=urlencode(query))
 
     agent = "Python-{major}.{minor}.{micro}-SDK-{sdk_version}".format(
@@ -78,7 +78,12 @@ def fetch(method, path, payload=None, query=None, session=None, version="v1"):
     if session is None:
         session = sara_sdk.DEFAULT_SESSION
 
-    access_time = str(time())
+    access_time = time()
+
+    # if session has expired get a new access_token
+    if access_time >= session.expires_in:
+        session.auth()
+
     body = dumps(payload) if payload else ""
     bearer_token = "Bearer {token}".format(token=session.access_token)
 
@@ -87,8 +92,8 @@ def fetch(method, path, payload=None, query=None, session=None, version="v1"):
             url=url,
             data=body,
             headers={
-                "Access-Time": access_time,
-                "Content-Type": "application/json",
+                "Access-Time": str(access_time),
+                "Content-Type": "application/x-www-form-urlencoded",
                 "User-Agent": agent,
                 "Accept-Language": "en-US",
                 "Authorization": bearer_token
@@ -101,7 +106,7 @@ def fetch(method, path, payload=None, query=None, session=None, version="v1"):
 
     response = Response(status=request.status_code, content=request.content)
 
-    # TODO: request new token if access_token expired
+    print(url)
 
     if response.status == 500:
         raise InternalServerError()

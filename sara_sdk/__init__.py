@@ -6,6 +6,8 @@ __timeout__ = 15
 
 load_dotenv()
 
+# TODO: set core folder as default path
+
 
 DEFAULT_SESSION = None
 AUTH_URL = "https://auth.sara.synkar.com/oauth2/token"
