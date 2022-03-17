@@ -3,22 +3,22 @@ from typing import Dict
 from sara_sdk.common.session import Session
 from ...utils.rest import retrieve as _retrieve, list as _list, update as _update, delete as _delete, create as _create
 
-RESOURCE = "iam/permissions"
+RESOURCE = "iam/actions"
 
 
 def list(session: Session = None, **filters):
     """
-    List a array of permissions
+    List a array of actions
 
     Args:
       session (Session): Used only if want to use a different session instead default
-      filters (Any): filters to pass to filter the list of permissions
+      filters (Any): filters to pass to filter the list of actions
 
     Returns:
       result (json): returns the result of the request as json
 
     Example:
-      >>> list(page=1,page_size=10,name="permission name")
+      >>> list(page=1,page_size=10,name="action name")
     """
     result = _list(resource=RESOURCE, session=session, **filters)
     return result
@@ -26,10 +26,10 @@ def list(session: Session = None, **filters):
 
 def retrieve(uuid: str, session: Session = None):
     """
-    Retrieve a permission by uuid
+    Retrieve a action by uuid
 
     Args:
-      uuid (string): permission uuid to retrieve
+      uuid (string): action uuid to retrieve
       session (Session): Used only if want to use a different session instead default
 
     Returns:
@@ -44,10 +44,10 @@ def retrieve(uuid: str, session: Session = None):
 
 def create(model: Dict, session: Session = None):
     """
-    Create a permission by passing an model (Data)
+    Create a action by passing an model (Data)
 
     Args:
-      model (Dict): A dictionary with the data the will be used to create an permission
+      model (Dict): A dictionary with the data the will be used to create an action
       session (Session): Used only if want to use a different session instead default
 
     Returns:
