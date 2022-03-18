@@ -24,6 +24,7 @@ class Session:
         self.secret_access_key = secret_access_key
         self.scope = scope
         self.access_token = ""
+        self.attemps = 0
 
     def auth(self):
         """

@@ -3,7 +3,6 @@ from time import time
 from ..utils.url import urlencode
 from ..error import Error, InternalServerError, UnknownError, AuthorizationError
 from sys import version_info as python_version
-import os
 import sara_sdk
 
 
@@ -63,7 +62,7 @@ def fetch(method, path, payload=None, query=None, session=None, version="v1"):
     Examples:
         >>> fetch(method=post, path="iam/robots")
     """
-    url = os.getenv('API_URL') + version
+    url = sara_sdk.API_URL + version
 
     url = "{base_url}/{path}/{query}".format(
         base_url=url, path=path, query=urlencode(query))
@@ -106,14 +105,18 @@ def fetch(method, path, payload=None, query=None, session=None, version="v1"):
 
     response = Response(status=request.status_code, content=request.content)
 
-    print(url)
-
     if response.status == 500:
         raise InternalServerError()
     if response.status == 400:
         raise Error(response.status, response.json()["detail"])
     if response.status == 401:
-        raise AuthorizationError()
+        if(session.attemps == 0):
+            session.attemps += 1
+            session.auth()
+            fetch(method=method, path=path, payload=payload,
+                  query=query, session=session, version=version)
+        else:
+            raise AuthorizationError()
     if response.status != 200:
         raise UnknownError(response.content)
 

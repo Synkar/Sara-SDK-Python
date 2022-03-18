@@ -10,6 +10,7 @@ load_dotenv()
 
 
 DEFAULT_SESSION = None
+API_URL = "https://sara.synkar.com/"
 AUTH_URL = "https://auth.sara.synkar.com/oauth2/token"
 
 
