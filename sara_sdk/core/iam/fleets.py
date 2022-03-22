@@ -1,7 +1,7 @@
 from typing import Dict
 
 from sara_sdk.common.session import Session
-from ...utils.rest import retrieve as _retrieve, list as _list, update as _update, delete as _delete, create as _create
+from ...utils.rest import retrieve as _retrieve, list as _list, update as _update, delete as _delete, create as _create, attach, detach
 
 RESOURCE = "iam/fleets"
 
@@ -91,4 +91,44 @@ def delete(uuid: str, session: Session = None):
       >>> delete("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
     result = _delete(RESOURCE, id=uuid, session=session)
+    return result
+
+
+def attachRobot(robot: str, fleet: str, session: Session = None):
+    """
+    Attach a robot to a fleet
+
+    Args:
+      robot (string): robot uuid to attach on fleet
+      fleet (string): fleet uuid that the robot is going to be attached
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of request as json
+
+    Example:
+      >>> attachRobot("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", f3a4d78a-4540-4d46-a2ed-00e613a65d4a)
+    """
+    result = attach(RESOURCE, type="robot", this=robot,
+                    that=fleet, session=session)
+    return result
+
+
+def detachRobot(robot: str, fleet: str, session: Session = None):
+    """
+    Detach a robot from a fleet
+
+    Args:
+      robot (string): robot uuid to detach from fleet
+      fleet (string): fleet uuid that the robot is, to be detached of
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of request as json
+
+    Example:
+      >>> detachRobot("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", f3a4d78a-4540-4d46-a2ed-00e613a65d4a)
+    """
+    result = detach(RESOURCE, type="robot", this=robot,
+                    that=fleet, session=session)
     return result
