@@ -92,3 +92,39 @@ def delete(uuid: str, session: Session = None):
     """
     result = _delete(RESOURCE, id=uuid, session=session)
     return result
+
+
+def me(session: Session = None):
+    """
+    Get the data from the user logged
+
+    Args:
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of the request as json
+
+    Example:
+      >>> me()
+    """
+    result = _retrieve(RESOURCE, id="me", session=session)
+    return result
+
+
+def verifyUserByEmail(email: str, session: Session = None):
+    """
+    Verify user by email
+
+    Args:
+      email (string): email to validate
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of the request as json
+
+    Example:
+      >>> verifyUserByEmail("email@dominio.com")
+    """
+    result = _retrieve(RESOURCE, id="verifyUserByEmail",
+                       session=session, email=email)
+    return result
