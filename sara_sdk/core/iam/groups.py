@@ -1,7 +1,7 @@
 from typing import Dict
 
 from sara_sdk.common.session import Session
-from ...utils.rest import retrieve as _retrieve, list as _list, update as _update, delete as _delete, create as _create
+from ...utils.rest import retrieve as _retrieve, list as _list, update as _update, delete as _delete, create as _create, attach, detach
 
 RESOURCE = "iam/groups"
 
@@ -91,4 +91,84 @@ def delete(uuid: str, session: Session = None):
       >>> delete("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
     result = _delete(RESOURCE, id=uuid, session=session)
+    return result
+
+
+def attachUser(user: str, group: str, session: Session = None):
+    """
+    Attach a user to a group
+
+    Args:
+      user (string): user uuid to attach on group
+      group (string): group uuid that the user is going to be attached
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of request as json
+
+    Example:
+      >>> attachUser("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", f3a4d78a-4540-4d46-a2ed-00e613a65d4a)
+    """
+    result = attach(RESOURCE, type="user", this=user,
+                    that=group, session=session)
+    return result
+
+
+def detachUser(user: str, group: str, session: Session = None):
+    """
+    Detach a user from a group
+
+    Args:
+      user (string): user uuid to detach from group
+      group (string): group uuid that the user is, to be detached of
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of request as json
+
+    Example:
+      >>> detachUser("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", f3a4d78a-4540-4d46-a2ed-00e613a65d4a)
+    """
+    result = detach(RESOURCE, type="user", this=user,
+                    that=group, session=session)
+    return result
+
+
+def attachPolicy(policy: str, group: str, session: Session = None):
+    """
+    Attach a policy to a group
+
+    Args:
+      policy (string): policy uuid to attach on group
+      group (string): group uuid that the policy is going to be attached
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of request as json
+
+    Example:
+      >>> attachPolicy("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", f3a4d78a-4540-4d46-a2ed-00e613a65d4a)
+    """
+    result = attach(RESOURCE, type="policy", this=policy,
+                    that=group, session=session)
+    return result
+
+
+def detachPolicy(policy: str, group: str, session: Session = None):
+    """
+    Detach a policy from a group
+
+    Args:
+      policy (string): policy uuid to detach from group
+      group (string): group uuid that the policy is, to be detached of
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of request as json
+
+    Example:
+      >>> detachPolicy("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", f3a4d78a-4540-4d46-a2ed-00e613a65d4a)
+    """
+    result = detach(RESOURCE, type="policy", this=policy,
+                    that=group, session=session)
     return result
