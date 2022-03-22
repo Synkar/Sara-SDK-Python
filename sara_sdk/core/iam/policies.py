@@ -1,7 +1,7 @@
 from typing import Dict
 
 from sara_sdk.common.session import Session
-from ...utils.rest import retrieve as _retrieve, list as _list, update as _update, delete as _delete, create as _create
+from ...utils.rest import attach, detach, retrieve as _retrieve, list as _list, update as _update, delete as _delete, create as _create
 
 RESOURCE = "iam/policies"
 
@@ -91,4 +91,44 @@ def delete(uuid: str, session: Session = None):
       >>> delete("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
     result = _delete(RESOURCE, id=uuid, session=session)
+    return result
+
+
+def attachAction(action: str, policy: str, session: Session = None):
+    """
+    Attach a action to a policy
+
+    Args:
+      action (string): action uuid to attach on policy
+      policy (string): policy uuid that the action is going to be attached
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of request as json
+
+    Example:
+      >>> attachAction("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", f3a4d78a-4540-4d46-a2ed-00e613a65d4a)
+    """
+    result = attach(RESOURCE, type="actions", this=action,
+                    that=policy, session=session)
+    return result
+
+
+def detachAction(action: str, policy: str, session: Session = None):
+    """
+    Detach a action from a policy
+
+    Args:
+      action (string): action uuid to detach from policy
+      policy (string): policy uuid that the action is, to be detached of
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of request as json
+
+    Example:
+      >>> detachAction("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", f3a4d78a-4540-4d46-a2ed-00e613a65d4a)
+    """
+    result = detach(RESOURCE, type="actions", this=action,
+                    that=policy, session=session)
     return result
