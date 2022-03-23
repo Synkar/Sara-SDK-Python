@@ -40,7 +40,10 @@ class Response:
             >>> print(result)
                 { key: "data" }
         """
-        return loads(self.content.decode("utf-8"))
+        if self.content:
+            return loads(self.content.decode("utf-8"))
+        else:
+            return {}
 
 
 def fetch(method, path, payload=None, query=None, session=None, version="v1"):
@@ -87,7 +90,7 @@ def fetch(method, path, payload=None, query=None, session=None, version="v1"):
     if access_time >= session.expires_in:
         session.auth()
 
-    body = dumps(payload) if payload else ""
+    body = payload
     bearer_token = "Bearer {token}".format(token=session.access_token)
 
     try:
@@ -121,7 +124,7 @@ def fetch(method, path, payload=None, query=None, session=None, version="v1"):
                   query=query, session=session, version=version)
         else:
             raise AuthorizationError()
-    if response.status != 200:
+    if response.status >= 300:
         raise UnknownError(response.content)
 
     return response
