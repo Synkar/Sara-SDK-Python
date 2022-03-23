@@ -89,7 +89,7 @@ def delete(resource, id, session=None):
     return json
 
 
-def update(resource, id, session=None, **payload):
+def update(resource, id, payload, session=None):
     """
     Delete function to request a DELETE passing id to the API
 
@@ -108,7 +108,7 @@ def update(resource, id, session=None, **payload):
     """
     path = "{endpoint}/{id}".format(endpoint=resource, id=id)
     json = fetch(method=patch, path=path,
-                 session=session, payload=payload).json()
+                 payload=payload, session=session).json()
     return json
 
 

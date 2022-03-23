@@ -42,7 +42,7 @@ def retrieve(uuid: str, session: Session = None):
     return result
 
 
-def update(uuid: str, model: Dict, session: Session = None):
+def update(uuid: str, model: Dict, session: Session = None,):
     """
     Update a robot by passing uuid and an model (Data to update)
 

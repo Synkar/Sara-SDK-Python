@@ -64,8 +64,12 @@ def fetch(method, path, payload=None, query=None, session=None, version="v1"):
     """
     url = sara_sdk.API_URL + version
 
-    url = "{base_url}/{path}/{query}".format(
-        base_url=url, path=path, query=urlencode(query))
+    if query is not None:
+        url = "{base_url}/{path}/{query}".format(
+            base_url=url, path=path, query=urlencode(query))
+    else:
+        url = "{base_url}/{path}/".format(
+            base_url=url, path=path)
 
     agent = "Python-{major}.{minor}.{micro}-SDK-{sdk_version}".format(
         major=python_version.major,
