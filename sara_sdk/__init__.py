@@ -1,5 +1,7 @@
 from dotenv import load_dotenv
 from .common.session import Session
+from .core import iam
+
 
 __version__ = "0.0.1"
 __timeout__ = 15
