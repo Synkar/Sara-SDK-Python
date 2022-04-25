@@ -174,6 +174,9 @@ def detach(resource, type, this, that, session=None):
     if type == "user" and resource == "iam/groups":
         type = "UserGroup"
 
+    if type == "actions" and resource == "iam/policies":
+        type = "Permissions"
+
     path = "{endpoint}/{this}/attach{type}".format(
         endpoint=resource, this=this, type=type.capitalize())
     json = fetch(method=_delete, path=path, payload=body, session=session)
