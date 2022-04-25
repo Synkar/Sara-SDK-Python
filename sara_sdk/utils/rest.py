@@ -131,7 +131,7 @@ def attach(resource, type, this, that, session=None):
         >>> attach("iam/groups", "user", "9871a24a-89ff-4ba1-a350-458244e8244d", "00ea03f1-5b2e-4787-8aa6-745961c6d506")
     """
     body = {
-        type: that
+        type: this
     }
 
     # Workaround to userGroup route
@@ -141,9 +141,18 @@ def attach(resource, type, this, that, session=None):
     if type == "actions" and resource == "iam/policies":
         type = "Permissions"
 
-    path = "{endpoint}/{this}/attach{type}".format(
-        endpoint=resource, this=this, type=type.capitalize())
-    json = fetch(method=post, path=path, payload=body, session=session)
+    path = "{endpoint}/{that}/attach{type}".format(
+        endpoint=resource, that=that, type=type.capitalize())
+
+    if resource == "iam/clients":
+        body = {
+            type: this,
+            'client': that
+        }
+        path = "{endpoint}/attach{type}".format(
+            endpoint=resource, type=type.capitalize())
+
+    json = fetch(method=post, path=path, payload=body, session=session).json()
     return json
 
 
@@ -167,7 +176,7 @@ def detach(resource, type, this, that, session=None):
     """
 
     body = {
-        type: that
+        type: this
     }
 
     # Workaround to userGroup route
@@ -177,7 +186,17 @@ def detach(resource, type, this, that, session=None):
     if type == "actions" and resource == "iam/policies":
         type = "Permissions"
 
-    path = "{endpoint}/{this}/attach{type}".format(
-        endpoint=resource, this=this, type=type.capitalize())
-    json = fetch(method=_delete, path=path, payload=body, session=session)
+    path = "{endpoint}/{that}/attach{type}".format(
+        endpoint=resource, that=that, type=type.capitalize())
+
+    if resource == "iam/clients":
+        body = {
+            type: this,
+            'client': that
+        }
+        path = "{endpoint}/attach{type}".format(
+            endpoint=resource, type=type.capitalize())
+
+    json = fetch(method=_delete, path=path,
+                 payload=body, session=session).json()
     return json

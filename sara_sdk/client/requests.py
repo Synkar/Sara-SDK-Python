@@ -74,8 +74,6 @@ def fetch(method, path, payload=None, query=None, session=None, version="v1"):
         url = "{base_url}/{path}/".format(
             base_url=url, path=path)
 
-    print("URL API: {}".format(url))
-
     agent = "Python-{major}.{minor}.{micro}-SDK-{sdk_version}".format(
         major=python_version.major,
         minor=python_version.minor,
