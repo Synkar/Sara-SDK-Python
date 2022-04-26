@@ -3,7 +3,7 @@ from .common.session import Session
 from .core import iam
 
 
-__version__ = "0.0.3"
+__version__ = "1.0.0"
 __timeout__ = 15
 
 load_dotenv()

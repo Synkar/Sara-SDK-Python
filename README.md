@@ -1,6 +1,6 @@
 # Sara SDK Python
 
-|Version| |Python| |License|
+Version: 1.0.0 - Python: >= 3.7 - License: MIT License
 
 ## Getting Started
 
