@@ -184,7 +184,7 @@ def detach(resource, type, this, that, session=None):
         type = "UserGroup"
 
     if type == "actions" and resource == "iam/policies":
-        type = "Permissions"
+        type = "Action"
 
     path = "{endpoint}/{that}/attach{type}".format(
         endpoint=resource, that=that, type=type.capitalize())
