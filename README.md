@@ -2,6 +2,7 @@
 <div>
     <img src="https://img.shields.io/badge/version-1.0.0-blue" /> <img src="https://img.shields.io/badge/python-3.7-green" /> <img src="https://img.shields.io/badge/license-MIT-brightgreen" />
 </div>
+
 ## Getting Started
 
 Assuming that you have a supported version of Python installed, you can first
