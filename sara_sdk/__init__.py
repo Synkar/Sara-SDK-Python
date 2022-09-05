@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 from .common.session import Session
-from .core import iam
+from .core import iam, missions
 
 
 __version__ = "1.0.0"

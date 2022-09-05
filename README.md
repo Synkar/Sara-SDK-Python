@@ -20,7 +20,7 @@ or install from source with:
     $ git clone https://github.com/Synkar/Sara-SDK-Python.git
     $ cd sara_sdk
     $ python -m pip install -r requirements.txt
-    $ python -m pip install -e .
+    $ python -m pip install .
 
 ## Using Sara SDK
 

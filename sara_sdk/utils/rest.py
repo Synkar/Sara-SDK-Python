@@ -24,7 +24,34 @@ def retrieve(resource, id, session=None, **kwargs):
     return json
 
 
-def list(resource, session=None, **kwargs):
+def list_paginated(resource, session=None, version="v1", **kwargs):
+    """
+    List function to request a GET to receive a list of objects
+
+    Args:
+        resource (string): the route to access on the api
+        session (Session): session where to get the authorization (only needed if doens't want
+        to use the DEFAULT_SESSION)
+        kwargs (any): will be used as query to the route
+
+    Returns:
+        Json: The json of the content results of the response sended by the api
+
+    Example:
+        >>> list(resource="iam/robots")
+    """
+    page = kwargs.get("page", 1)
+
+    while True:
+        json = fetch(method=get, path=resource, query={
+                     **kwargs, "page": page}, session=session, version=version).json()
+        yield json.get("results", [])
+        if json.get("next") is None:
+            break
+        page += 1
+
+
+def list(resource, session=None, version="v1", **kwargs):
     """
     List function to request a GET to receive a list of objects
 
@@ -41,11 +68,11 @@ def list(resource, session=None, **kwargs):
         >>> list(resource="iam/robots")
     """
     json = fetch(method=get, path=resource,
-                 query=kwargs, session=session).json()
+                 query=kwargs, session=session, version=version).json()
     return json
 
 
-def create(resource, payload, session=None, **kwargs):
+def create(resource, payload, session=None, version="v1", **kwargs):
     """
     Create function to request a POST to create a new instance of resource
 
@@ -63,11 +90,11 @@ def create(resource, payload, session=None, **kwargs):
         >>> create(resource="iam/robots", **kwargs)
     """
     json = fetch(method=post, path=resource, session=session,
-                 query=kwargs, payload=payload).json()
+                 query=kwargs, payload=payload, version=version).json()
     return json
 
 
-def delete(resource, id, session=None):
+def delete(resource, id, session=None, version="v1"):
     """
     Delete function to request a DELETE passing id to the API
 
@@ -85,11 +112,12 @@ def delete(resource, id, session=None):
         >>> delete(resource="iam/robots", "09594aae-7e88-4c8b-b4e5-095c6e785509")
     """
     path = "{endpoint}/{id}".format(endpoint=resource, id=id)
-    json = fetch(method=_delete, path=path, session=session).json()
+    json = fetch(method=_delete, path=path,
+                 session=session, version=version).json()
     return json
 
 
-def update(resource, id, payload, session=None):
+def update(resource, id, payload, session=None, version="v1"):
     """
     Delete function to request a DELETE passing id to the API
 
@@ -108,11 +136,11 @@ def update(resource, id, payload, session=None):
     """
     path = "{endpoint}/{id}".format(endpoint=resource, id=id)
     json = fetch(method=patch, path=path,
-                 payload=payload, session=session).json()
+                 payload=payload, session=session, version=version).json()
     return json
 
 
-def attach(resource, type, this, that, session=None):
+def attach(resource, type, this, that, session=None, version="v1"):
     """
     Attach function to attach something (this) to other entity (that)
 
@@ -152,11 +180,12 @@ def attach(resource, type, this, that, session=None):
         path = "{endpoint}/attach{type}".format(
             endpoint=resource, type=type.capitalize())
 
-    json = fetch(method=post, path=path, payload=body, session=session).json()
+    json = fetch(method=post, path=path, payload=body,
+                 session=session, version=version).json()
     return json
 
 
-def detach(resource, type, this, that, session=None):
+def detach(resource, type, this, that, session=None, version="v1"):
     """
     Attach function to detach something (this) from other entity (that)
 
@@ -198,5 +227,5 @@ def detach(resource, type, this, that, session=None):
             endpoint=resource, type=type.capitalize())
 
     json = fetch(method=_delete, path=path,
-                 payload=body, session=session).json()
+                 payload=body, session=session, version="v1").json()
     return json
