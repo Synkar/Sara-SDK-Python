@@ -36,6 +36,9 @@ Example:
 
     sara_sdk.iam.apps.list()
 
+See:
+    https://github.com/Synkar/Sara-SDK-Python/blob/main/examples
+
 ## Running Tests
 
 You can run test to all functions by running `pytest` in the project by using:
