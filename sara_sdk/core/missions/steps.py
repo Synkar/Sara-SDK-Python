@@ -20,7 +20,7 @@ def list(session: Session = None, **filters):
     Example:
       >>> list(page=1,page_size=10,name="step name")
     """
-    result = _list(resource=RESOURCE, session=session, **filters)
+    result = _list(resource=RESOURCE, session=session, version="v2", **filters)
     return result
 
 
