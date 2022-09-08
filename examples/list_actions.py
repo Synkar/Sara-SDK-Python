@@ -28,5 +28,8 @@ actions = sara_sdk.iam.actions.list()
 
 for action in actions:
     action['service'] = next(s.get("name") for s in services if s.get("uuid") == action.get("service"))
+
+
+for action in sorted(actions, key=lambda k: k['service']):
     print(action)    
     print("--------")
