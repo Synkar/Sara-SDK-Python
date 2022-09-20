@@ -2,15 +2,18 @@ from typing import Dict
 import json
 from sara_sdk.common.session import Session
 from ...utils.rest import list as _list, list_paginated as _list_paginated, create as _create
+from requests import get, post, delete as _delete, patch
+from ...client.requests import fetch
 
 RESOURCE = "missions"
 
 
-def list(session: Session = None, **filters):
+def list(robot: str, session: Session = None, **filters):
     """
     List a array of missions
 
     Args:
+      robot (UUID): robot to return a mission
       session (Session): Used only if want to use a different session instead default
       filters (Any): filters to pass to filter the list of missions
 
@@ -20,15 +23,17 @@ def list(session: Session = None, **filters):
     Example:
       >>> list(page=1,page_size=10,name="mission name")
     """
-    result = _list(resource=RESOURCE, session=session, **filters)
+    filters["robot_id"] = robot
+    result = _list(resource=RESOURCE, session=session,version="v2", **filters)
     return result
 
 
-def list_paginated(session: Session = None, **filters):
+def list_paginated(robot: str, session: Session = None, **filters):
     """
     List iterator of pages of missions
 
     Args:
+      robot (UUID): robot to return a mission
       session (Session): Used only if want to use a different session instead default
       filters (Any): filters to pass to filter the list of missions
 
@@ -38,6 +43,7 @@ def list_paginated(session: Session = None, **filters):
     Example:
       >>> next(list(page=1,page_size=10,name="mission name"))
     """
+    filters["robot_id"] = robot
     result = _list_paginated(resource=RESOURCE, session=session,
                              version="v2", **filters)
     return result
@@ -79,4 +85,72 @@ def create(robot: str, stages: Dict, session: Session = None):
         "stages": json.dumps(stages)
     }
     result = _create(RESOURCE, payload=model, session=session, version="v2")
+    return result
+
+def retry(mission: str, session: Session = None):
+    """
+    Retry a mission by passing uuid
+
+    Args:
+      mission (UUID): mission uuid to retry
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      null
+
+    Example:
+      >>> retry("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+    """
+    result = fetch(RESOURCE+"/"+mission+"/retry", session=session, method=post, version="v2")
+    return result
+
+def cancel(mission: str, session: Session = None):
+    """
+    Cancel a mission by passing uuid
+
+    Args:
+      mission (UUID): mission uuid to cancel
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      null
+
+    Example:
+      >>> cancel("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+    """
+    result = fetch(RESOURCE+"/"+mission+"/cancel", session=session, method=post, version="v2")
+    return result
+
+def pause(mission: str, session: Session = None):
+    """
+    Pause a mission by passing uuid
+
+    Args:
+      mission (UUID): mission uuid to pause
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      null
+
+    Example:
+      >>> pause("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+    """
+    result = fetch(RESOURCE+"/"+mission+"/pause", session=session, method=post, version="v2")
+    return result
+
+def resume(mission: str, session: Session = None):
+    """
+    Resume a mission by passing uuid
+
+    Args:
+      mission (UUID): mission uuid to resume
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      null
+
+    Example:
+      >>> resume("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+    """
+    result = fetch(RESOURCE+"/"+mission+"/resume", session=session, method=post, version="v2")
     return result
