@@ -1,7 +1,7 @@
 from typing import Dict
 import json
 from sara_sdk.common.session import Session
-from ...utils.rest import list as _list, list_paginated as _list_paginated, create as _create
+from ...utils.rest import list as _list, list_paginated as _list_paginated, create as _create, retrieve as _retrieve
 from requests import get, post, delete as _delete, patch
 from ...client.requests import fetch
 
@@ -34,6 +34,20 @@ def list_paginated(session: Session = None, **filters):
     """
     result = _list_paginated(resource=RESOURCE, session=session,
                              version="v2", **filters)
+    return result
+
+def retrieve(uuid: str, session: Session = None):
+    """
+    Retrieve a tag by passing id
+    Args:
+      id (UUID): tag id to retrieve
+      session (Session): Used only if want to use a different session instead default
+    Returns:
+      result (json): returns the result of the request as json
+    Example:
+      >>> retrieve("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+    """
+    result = _retrieve(RESOURCE, id=uuid, session=session, version="v2")
     return result
 
 def create(name: str, session: Session = None):
