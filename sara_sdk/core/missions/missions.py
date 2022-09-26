@@ -101,8 +101,10 @@ def retry(mission: str, session: Session = None):
     Example:
       >>> retry("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = fetch(RESOURCE+"/"+mission+"/retry", session=session, method=post, version="v2")
-    return result
+    result = fetch(path=RESOURCE+"/"+mission+"/retry", session=session, method=post, version="v2")
+    if result and result.status == 202:
+        return True
+    return False
 
 def cancel(mission: str, session: Session = None):
     """
@@ -118,8 +120,10 @@ def cancel(mission: str, session: Session = None):
     Example:
       >>> cancel("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = fetch(RESOURCE+"/"+mission+"/cancel", session=session, method=post, version="v2")
-    return result
+    result = fetch(path=RESOURCE+"/"+mission+"/cancel", session=session, method=post, version="v2")
+    if result and result.status == 202:
+        return True
+    return False
 
 def pause(mission: str, session: Session = None):
     """
@@ -135,8 +139,10 @@ def pause(mission: str, session: Session = None):
     Example:
       >>> pause("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = fetch(RESOURCE+"/"+mission+"/pause", session=session, method=post, version="v2")
-    return result
+    result = fetch(path=RESOURCE+"/"+mission+"/pause", session=session, method=post, version="v2")
+    if result and result.status == 202:
+        return True
+    return False
 
 def resume(mission: str, session: Session = None):
     """
@@ -152,5 +158,7 @@ def resume(mission: str, session: Session = None):
     Example:
       >>> resume("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = fetch(RESOURCE+"/"+mission+"/resume", session=session, method=post, version="v2")
-    return result
+    result = fetch(path=RESOURCE+"/"+mission+"/resume", session=session, method=post, version="v2")
+    if result and result.status == 202:
+        return True
+    return False
