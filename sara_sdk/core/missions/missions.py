@@ -24,8 +24,9 @@ def list(robot: str, session: Session = None, **filters):
       >>> list(page=1,page_size=10,name="mission name")
     """
     filters["robot_id"] = robot
-    result = _list(resource=RESOURCE, session=session,version="v2", **filters)
+    result = _list(resource=RESOURCE, session=session, version="v2", **filters)
     return result
+
 
 def retrieve(uuid: str, session: Session = None):
     """
@@ -104,6 +105,7 @@ def create(robot: str, stages: Dict, session: Session = None):
     result = _create(RESOURCE, payload=model, session=session, version="v2")
     return result
 
+
 def retry(mission: str, session: Session = None):
     """
     Retry a mission by passing uuid
@@ -118,10 +120,12 @@ def retry(mission: str, session: Session = None):
     Example:
       >>> retry("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = fetch(path=RESOURCE+"/"+mission+"/retry", session=session, method=post, version="v2")
+    result = fetch(path=RESOURCE+"/"+mission+"/retry",
+                   session=session, method=post, version="v2")
     if result and result.status == 202:
         return True
     return False
+
 
 def cancel(mission: str, session: Session = None):
     """
@@ -137,10 +141,12 @@ def cancel(mission: str, session: Session = None):
     Example:
       >>> cancel("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = fetch(path=RESOURCE+"/"+mission+"/cancel", session=session, method=post, version="v2")
+    result = fetch(path=RESOURCE+"/"+mission+"/cancel",
+                   session=session, method=post, version="v2")
     if result and result.status == 202:
         return True
     return False
+
 
 def pause(mission: str, session: Session = None):
     """
@@ -156,10 +162,12 @@ def pause(mission: str, session: Session = None):
     Example:
       >>> pause("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = fetch(path=RESOURCE+"/"+mission+"/pause", session=session, method=post, version="v2")
+    result = fetch(path=RESOURCE+"/"+mission+"/pause",
+                   session=session, method=post, version="v2")
     if result and result.status == 202:
         return True
     return False
+
 
 def resume(mission: str, session: Session = None):
     """
@@ -175,12 +183,14 @@ def resume(mission: str, session: Session = None):
     Example:
       >>> resume("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = fetch(path=RESOURCE+"/"+mission+"/resume", session=session, method=post, version="v2")
+    result = fetch(path=RESOURCE+"/"+mission+"/resume",
+                   session=session, method=post, version="v2")
     if result and result.status == 202:
         return True
     return False
 
-def list_missions_tags(mission: str, session: Session = None):
+
+def list_tags(mission: str, session: Session = None):
     """
     List a array of missions tags
 
@@ -192,12 +202,14 @@ def list_missions_tags(mission: str, session: Session = None):
       result (json): returns the result of the request as json
 
     Example:
-      >>> list_missions_tags()
+      >>> list_tags("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = _list(RESOURCE+"/"+mission+"/tags", session=session,version="v2")
+    result = _list(resource="{}/{}/tags".format(RESOURCE,
+                   mission), session=session, version="v2")
     return result
 
-def retrieve_missions_tags(mission: str, tag: str, session: Session = None):
+
+def retrieve_tags(mission: str, tag: str, session: Session = None):
     """
     Retrieve a mission tag by passing uuid
 
@@ -210,12 +222,14 @@ def retrieve_missions_tags(mission: str, tag: str, session: Session = None):
       result (json): returns the result of the request as json
 
     Example:
-      >>> retrieve_missions_tags("f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+      >>> retrieve_tags("f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = _retrieve(RESOURCE+"/"+mission+"/tags", id=tag, session=session, version="v2")
+    result = _retrieve(resource="{}/{}/tags".format(RESOURCE,
+                       mission), id=tag, session=session, version="v2")
     return result
 
-def list_missions_steps(mission: str, session: Session = None):
+
+def list_steps(mission: str, session: Session = None):
     """
     List a array of steps from one mission
 
@@ -227,12 +241,14 @@ def list_missions_steps(mission: str, session: Session = None):
       result (json): returns the result of the request as json
 
     Example:
-      >>> list_missions_steps()
+      >>> list_steps("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = _list(resource="{}/{}/steps".format(RESOURCE, mission), session=session,version="v2")
+    result = _list(resource="{}/{}/steps".format(RESOURCE,
+                   mission), session=session, version="v2")
     return result
 
-def retrieve_missions_steps(mission: str, step: str, session: Session = None):  
+
+def retrieve_steps(mission: str, step: str, session: Session = None):
     """
     Retrieve a step of a mission by passing uuid
 
@@ -245,12 +261,14 @@ def retrieve_missions_steps(mission: str, step: str, session: Session = None):
       result (json): returns the result of the request as json
 
     Example:
-      >>> retrieve_missions_steps("f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+      >>> retrieve_steps("f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = _retrieve(resource="{}/{}/steps".format(RESOURCE, mission), id=step, session=session, version="v2")
+    result = _retrieve(resource="{}/{}/steps".format(RESOURCE,
+                       mission), id=step, session=session, version="v2")
     return result
 
-def list_missions_stages(mission: str, session: Session = None):
+
+def list_stages(mission: str, session: Session = None):
     """
     List a array of stages of one mission
 
@@ -264,10 +282,12 @@ def list_missions_stages(mission: str, session: Session = None):
     Example:
       >>> list_missions_stages("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = _list(resource="{}/{}/stages".format(RESOURCE, mission), session=session, version="v2")
+    result = _list(resource="{}/{}/stages".format(RESOURCE,
+                   mission), session=session, version="v2")
     return result
 
-def retrieve_missions_stage(mission: str, stage: str, session: Session = None):
+
+def retrieve_stages(mission: str, stage: str, session: Session = None):
     """
     Retrieve a stage of one mission by passing uuid
 
@@ -280,12 +300,14 @@ def retrieve_missions_stage(mission: str, stage: str, session: Session = None):
       result (json): returns the result of the request as json
 
     Example:
-      >>> retrieve_missions_stage("f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+      >>> retrieve_stage("f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = _retrieve(resource="{}/{}/stages".format(RESOURCE, mission), id=stage, session=session, version="v2")
+    result = _retrieve(resource="{}/{}/stages".format(RESOURCE,
+                       mission), id=stage, session=session, version="v2")
     return result
 
-def list_missions_stages_steps(mission: str, stage: str, session: Session = None):
+
+def list_stages_steps(mission: str, stage: str, session: Session = None):
     """
     List a array of steps of one stage of one mission
 
@@ -298,12 +320,14 @@ def list_missions_stages_steps(mission: str, stage: str, session: Session = None
       result (json): returns the result of the request as json
 
     Example:
-      >>> list_missions_stages_steps("f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+      >>> list_stages_steps("f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = _list(resource="{}/{}/stages/{}/steps".format(RESOURCE, mission, stage), session=session, version="v2")
+    result = _list(resource="{}/{}/stages/{}/steps".format(RESOURCE,
+                   mission, stage), session=session, version="v2")
     return result
 
-def retrieve_missions_stages_step(mission: str, stage: str, step: str, session: Session = None):
+
+def retrieve_stages_steps(mission: str, stage: str, step: str, session: Session = None):
     """
     Retrieve a step of one step of one mission by passing uuid
 
@@ -319,5 +343,47 @@ def retrieve_missions_stages_step(mission: str, stage: str, step: str, session: 
     Example:
       >>> retrieve_missions_stages_step("f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = _retrieve(resource="{}/{}/stages/{}/steps".format(RESOURCE, mission, stage), id=step, session=session, version="v2")
+    result = _retrieve(resource="{}/{}/stages/{}/steps".format(RESOURCE,
+                       mission, stage), id=step, session=session, version="v2")
+    return result
+
+
+def list_stages_params(mission: str, stage: str, session: Session = None):
+    """
+    List a array of params of one stage of one mission
+
+    Args:
+      mission (UUID): mission to return its stages
+      stage (UUID): stage to return its params
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of the request as json
+
+    Example:
+      >>> list_stages_params("f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+    """
+    result = _list(resource="{}/{}/stages/{}/params".format(RESOURCE,
+                   mission, stage), session=session, version="v2")
+    return result
+
+
+def retrieve_stage_params(mission: str, stage: str, param: str, session: Session = None):
+    """
+    Retrieve a param of one stage of one mission by passing uuid
+
+    Args:
+      mission (UUID): mission uuid to retrieve
+      stage (UUID): stage uuid to retrieve
+      param (UUID): param uuid to retrieve
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of the request as json
+
+    Example:
+      >>> retrieve_stage_params("f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+    """
+    result = _retrieve(resource="{}/{}/stages/{}/params".format(RESOURCE,
+                       mission, stage), id=param, session=session, version="v2")
     return result

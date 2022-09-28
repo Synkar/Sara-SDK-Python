@@ -113,7 +113,8 @@ def delete(uuid: str, session: Session = None):
     result = _delete(RESOURCE, id=uuid, session=session, version="v2")
     return result
 
-def list_stage_steps(stage: str, session: Session = None, **filters):
+
+def list_steps(stage: str, session: Session = None, **filters):
     """
     List a array of steps of one stage
 
@@ -126,12 +127,14 @@ def list_stage_steps(stage: str, session: Session = None, **filters):
       result (json): returns the result of the request as json
 
     Example:
-      >>> list_stage_steps("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", page=1,page_size=10,name="step name")
+      >>> list_steps("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", page=1,page_size=10,name="step name")
     """
-    result = _list(resource="{}/{}/steps".format(RESOURCE, stage), session=session, version="v2", **filters)
+    result = _list(resource="{}/{}/steps".format(RESOURCE, stage),
+                   session=session, version="v2", **filters)
     return result
 
-def retrieve_stage_step(stage: str, step: str, session: Session = None):
+
+def retrieve_steps(stage: str, step: str, session: Session = None):
     """
     Retrieve a step of one stage by uuid
 
@@ -144,12 +147,14 @@ def retrieve_stage_step(stage: str, step: str, session: Session = None):
       result (json): returns the result of the request as json
 
     Example:
-      >>> retrieve_stage_step("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", "f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+      >>> retrieve_step("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", "f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = _retrieve(resource="{}/{}/steps".format(RESOURCE, stage), id=step, session=session, version="v2")
+    result = _retrieve(resource="{}/{}/steps".format(RESOURCE,
+                       stage), id=step, session=session, version="v2")
     return result
 
-def list_stage_params(stage: str, session: Session = None, **filters):
+
+def list_params(stage: str, session: Session = None, **filters):
     """
     List a array of params of one stage
 
@@ -162,12 +167,14 @@ def list_stage_params(stage: str, session: Session = None, **filters):
       result (json): returns the result of the request as json
 
     Example:
-      >>> list_stage_params("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", page=1,page_size=10,name="param name")
+      >>> list_params("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", page=1,page_size=10,name="param name")
     """
-    result = _list(resource="{}/{}/params".format(RESOURCE, stage), session=session, version="v2", **filters)
+    result = _list(resource="{}/{}/params".format(RESOURCE, stage),
+                   session=session, version="v2", **filters)
     return result
 
-def retrieve_stage_param(stage: str, param: str, session: Session = None):
+
+def retrieve_params(stage: str, param: str, session: Session = None):
     """
     Retrieve a param of one stage by uuid
 
@@ -180,7 +187,8 @@ def retrieve_stage_param(stage: str, param: str, session: Session = None):
       result (json): returns the result of the request as json
 
     Example:
-      >>> retrieve_stage_param("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", "f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+      >>> retrieve_params("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", "f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = _retrieve(resource="{}/{}/params".format(RESOURCE, stage), id=param, session=session, version="v2")
+    result = _retrieve(resource="{}/{}/params".format(RESOURCE,
+                       stage), id=param, session=session, version="v2")
     return result
