@@ -1,9 +1,6 @@
 from typing import Dict
-import json
 from sara_sdk.common.session import Session
-from ...utils.rest import list as _list, list_paginated as _list_paginated, create as _create, retrieve as _retrieve
-from requests import get, post, delete as _delete, patch
-from ...client.requests import fetch
+from ...utils.rest import list as _list, list_paginated as _list_paginated, create as _create, retrieve as _retrieve, delete as _delete
 
 RESOURCE = "missions/tags"
 
@@ -50,7 +47,7 @@ def retrieve(uuid: str, session: Session = None):
     result = _retrieve(RESOURCE, id=uuid, session=session, version="v2")
     return result
 
-def create(name: str, session: Session = None):
+def create(model: Dict, session: Session = None):
     """
     Create a tag
     Args:
@@ -61,19 +58,20 @@ def create(name: str, session: Session = None):
     Example:
       >>> create("tag name")
     """
-    result = _create(resource=RESOURCE, session=session, name=name,version="v2")
+    result = _create(RESOURCE, payload=model, session=session,version="v2")
     return result
 
-def delete(id: str, session: Session = None):
+def delete(uuid: str, session: Session = None):
     """
     Delete a tag
     Args:
-      id (str): id of the tag
+      uuid (str): id of the tag
       session (Session): Used only if want to use a different session instead default
     Returns:
       result (json): returns the result of the request as json
     Example:
       >>> delete("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = _delete(f"{RESOURCE}/{id}", session=session)
+    print('delete')
+    result = _delete(RESOURCE, id=uuid, session=session, version="v2")
     return result

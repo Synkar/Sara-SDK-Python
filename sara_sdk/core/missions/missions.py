@@ -179,3 +179,145 @@ def resume(mission: str, session: Session = None):
     if result and result.status == 202:
         return True
     return False
+
+def list_missions_tags(mission: str, session: Session = None):
+    """
+    List a array of missions tags
+
+    Args:
+      mission (UUID): mission to return a mission tags
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of the request as json
+
+    Example:
+      >>> list_missions_tags()
+    """
+    result = _list(RESOURCE+"/"+mission+"/tags", session=session,version="v2")
+    return result
+
+def retrieve_missions_tags(mission: str, tag: str, session: Session = None):
+    """
+    Retrieve a mission tag by passing uuid
+
+    Args:
+      mission (UUID): mission uuid to retrieve
+      tag (UUID): tag uuid to retrieve
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of the request as json
+
+    Example:
+      >>> retrieve_missions_tags("f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+    """
+    result = _retrieve(RESOURCE+"/"+mission+"/tags", id=tag, session=session, version="v2")
+    return result
+
+def list_missions_steps(mission: str, session: Session = None):
+    """
+    List a array of steps from one mission
+
+    Args:
+      mission (UUID): mission to return a mission steps
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of the request as json
+
+    Example:
+      >>> list_missions_steps()
+    """
+    result = _list(resource="{}/{}/steps".format(RESOURCE, mission), session=session,version="v2")
+    return result
+
+def retrieve_missions_steps(mission: str, step: str, session: Session = None):  
+    """
+    Retrieve a step of a mission by passing uuid
+
+    Args:
+      mission (UUID): mission uuid to retrieve
+      step (UUID): step uuid to retrieve
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of the request as json
+
+    Example:
+      >>> retrieve_missions_steps("f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+    """
+    result = _retrieve(resource="{}/{}/steps".format(RESOURCE, mission), id=step, session=session, version="v2")
+    return result
+
+def list_missions_stages(mission: str, session: Session = None):
+    """
+    List a array of stages of one mission
+
+    Args:
+      mission (UUID): mission to return its stages
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of the request as json
+
+    Example:
+      >>> list_missions_stages("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+    """
+    result = _list(resource="{}/{}/stages".format(RESOURCE, mission), session=session, version="v2")
+    return result
+
+def retrieve_missions_stage(mission: str, stage: str, session: Session = None):
+    """
+    Retrieve a stage of one mission by passing uuid
+
+    Args:
+      mission (UUID): mission uuid to retrieve
+      stage (UUID): stage uuid to retrieve
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of the request as json
+
+    Example:
+      >>> retrieve_missions_stage("f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+    """
+    result = _retrieve(resource="{}/{}/stages".format(RESOURCE, mission), id=stage, session=session, version="v2")
+    return result
+
+def list_missions_stages_steps(mission: str, stage: str, session: Session = None):
+    """
+    List a array of steps of one stage of one mission
+
+    Args:
+      mission (UUID): mission to return its stages
+      stage (UUID): stage to return its steps
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of the request as json
+
+    Example:
+      >>> list_missions_stages_steps("f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+    """
+    result = _list(resource="{}/{}/stages/{}/steps".format(RESOURCE, mission, stage), session=session, version="v2")
+    return result
+
+def retrieve_missions_stages_step(mission: str, stage: str, step: str, session: Session = None):
+    """
+    Retrieve a step of one step of one mission by passing uuid
+
+    Args:
+      mission (UUID): mission uuid to retrieve
+      stage (UUID): stage uuid to retrieve
+      step (UUID): step uuid to retrieve
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of the request as json
+
+    Example:
+      >>> retrieve_missions_stages_step("f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a","f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+    """
+    result = _retrieve(resource="{}/{}/stages/{}/steps".format(RESOURCE, mission, stage), id=step, session=session, version="v2")
+    return result
