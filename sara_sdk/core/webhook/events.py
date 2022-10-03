@@ -3,7 +3,7 @@ import json
 from sara_sdk.common.session import Session
 from ...utils.rest import retrieve as _retrieve, list as _list, update as _update, delete as _delete, create as _create
 
-RESOURCE = "webhooks/events"
+RESOURCE = "webhook/events"
 
 
 def retrieve(uuid: str, session: Session = None):

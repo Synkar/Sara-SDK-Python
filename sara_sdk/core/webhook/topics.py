@@ -1,16 +1,18 @@
 from typing import Dict
-import json
 from sara_sdk.common.session import Session
 from ...utils.rest import retrieve as _retrieve, list as _list, update as _update, delete as _delete, create as _create
+from ...client.requests import fetch
+from requests import delete
 
-RESOURCE = "webhooks/topics"
+RESOURCE = "webhook/topics"
 
 
-def list(session: Session = None, **filters):
+def list(service: str, session: Session = None, **filters):
     """
     List a array of topics
 
     Args:
+      service (string): service of the topic
       session (Session): Used only if want to use a different session instead default
       filters (Any): filters to pass to filter the list of topics
 
@@ -18,32 +20,35 @@ def list(session: Session = None, **filters):
       result (json): returns the result of the request as json
 
     Example:
-      >>> list(page=1,page_size=10,name="topic name")
+      >>> list(service="service_name")
     """
+    filters["service"] = service
     result = _list(resource=RESOURCE, session=session, **filters)
     return result
 
 
-def create(name: str, session: Session = None):
+def create(name: str, action: str, service: str, session: Session = None):
     """
     Create a new topic
 
     Args:
       name (string): name of the topic
+      action (string): name of the action
+      service (string): service of the topic
       session (Session): Used only if want to use a different session instead default
 
     Returns:
       result (json): returns the result of request as json
 
     Example:
-      >>> create("topic.name")
+      >>> create("topic.action, topic.name, topic.service")
     """
-    data = {"name": name}
+    data = {"action": action, "name": name, "service": service}
     result = _create(resource=RESOURCE, data=data, session=session)
     return result
 
 
-def delete(uuid: str, session: Session = None):
+def delete(service: str, action: str, session: Session = None):
     """
     Delete a topic
 
@@ -55,7 +60,8 @@ def delete(uuid: str, session: Session = None):
       result (json): returns the result of request as json
 
     Example:
-      >>> delete("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+      >>> delete("service_name", "action_name")
     """
-    result = _delete(resource=RESOURCE, uuid=uuid, session=session)
+    result = fetch(method=delete, path="{}/{}/{}".format(RESOURCE, service, action),
+                   session=session)
     return result
