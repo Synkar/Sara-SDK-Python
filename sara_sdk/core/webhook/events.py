@@ -20,5 +20,5 @@ def retrieve(uuid: str, session: Session = None):
     Example:
       >>> retrieve("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = _retrieve(resource=RESOURCE, uuid=uuid, session=session)
+    result = _retrieve(resource=RESOURCE, id=uuid, session=session)
     return result

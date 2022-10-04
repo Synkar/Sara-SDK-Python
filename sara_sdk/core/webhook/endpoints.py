@@ -1,8 +1,10 @@
 from array import array
 from typing import Dict
 import json
+from sara_sdk.client.requests import fetch
 from sara_sdk.common.session import Session
 from ...utils.rest import retrieve as _retrieve, list as _list, update as _update, delete as _delete, create as _create
+from requests import post
 
 
 RESOURCE = "webhook/endpoints"
@@ -41,7 +43,6 @@ def create(url: Dict, session: Session = None):
     Example:
       >>> create("https://endpoint.url")
     """
-    data = {"url": url}
     result = _create(resource=RESOURCE, payload=url, session=session)
     return result
 
@@ -60,7 +61,7 @@ def retrieve(uuid: str, session: Session = None):
     Example:
       >>> retrieve("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = _retrieve(resource=RESOURCE, uuid=uuid, session=session)
+    result = _retrieve(resource=RESOURCE, id=uuid, session=session)
     return result
 
 
@@ -98,7 +99,7 @@ def delete(uuid: str, session: Session = None):
     Example:
       >>> delete("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
     """
-    result = _delete(resource=RESOURCE, uuid=uuid, session=session)
+    result = _delete(resource=RESOURCE, id=uuid, session=session)
     return result
 
 
@@ -133,15 +134,15 @@ def create_relations(endpoint: str, robot: array, topic: array, session: Session
       session (Session): Used only if want to use a different session instead default
 
     Returns:
-      result (json): returns the result of request as json
+      result (string): returns the result of the request as string
 
     Example:
       >>> create_relations("endpoint_uuid", [robots], [topics])
     """
     data = {"robots": robot, "topics": topic}
-    result = _create(resource="{}/{}/relations".format(RESOURCE,
-                     endpoint), payload=data, session=session)
-    return result
+    result = fetch(method=post, path="{}/{}/relations".format(RESOURCE,
+                                                              endpoint), payload=data, session=session)
+    return result.content.decode("utf-8")
 
 
 def delete_relations(endpoint: str, uuid: str, session: Session = None):

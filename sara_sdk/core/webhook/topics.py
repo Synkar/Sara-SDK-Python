@@ -1,8 +1,8 @@
 from typing import Dict
 from sara_sdk.common.session import Session
-from ...utils.rest import retrieve as _retrieve, list as _list, update as _update, delete as _delete, create as _create
+from ...utils.rest import list as _list, create as _create
 from ...client.requests import fetch
-from requests import delete
+from requests import delete as _delete
 
 RESOURCE = "webhook/topics"
 
@@ -44,7 +44,7 @@ def create(name: str, action: str, service: str, session: Session = None):
       >>> create("topic.action, topic.name, topic.service")
     """
     data = {"action": action, "name": name, "service": service}
-    result = _create(resource=RESOURCE, data=data, session=session)
+    result = _create(resource=RESOURCE, payload=data, session=session)
     return result
 
 
@@ -62,6 +62,6 @@ def delete(service: str, action: str, session: Session = None):
     Example:
       >>> delete("service_name", "action_name")
     """
-    result = fetch(method=delete, path="{}/{}/{}".format(RESOURCE, service, action),
+    result = fetch(method=_delete, path="{}/{}/{}".format(RESOURCE, service, action),
                    session=session)
-    return result
+    return result.json()
