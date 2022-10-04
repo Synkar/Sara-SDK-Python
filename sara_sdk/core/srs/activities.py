@@ -19,7 +19,7 @@ def list(session: Session = None, **filters):
       result (json): returns the result of the request as json
 
     Example:
-      >>> list(page=1,page_size=10,name="bucket name")
+      >>> list(page=1,page_size=10)
     """
     result = _list(resource=RESOURCE, session=session, **filters)
     return result
@@ -36,7 +36,7 @@ def list_paginated(session: Session = None, **filters):
       result (json): returns the result of the request as json by page
 
     Example:
-      >>> next(list(page=1,page_size=10,name="bucket name"))
+      >>> next(list(page=1,page_size=10))
     """
     result = _list_paginated(resource=RESOURCE, session=session,
                              version="v2", **filters)

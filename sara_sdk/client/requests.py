@@ -92,7 +92,6 @@ def fetch(method, path, payload=None, query=None, session=None, version="v1"):
 
     body = payload
     bearer_token = "Bearer {token}".format(token=session.access_token)
-
     try:
         request = method(
             url=url,
@@ -111,7 +110,6 @@ def fetch(method, path, payload=None, query=None, session=None, version="v1"):
             exception.__class_.__name__, str(exception)))
 
     response = Response(status=request.status_code, content=request.content)
-
     if response.status == 500:
         raise InternalServerError()
     if response.status == 400:

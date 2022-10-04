@@ -1,4 +1,7 @@
+from io import BufferedReader
 from typing import Dict
+
+from requests import get, post
 from ...client.requests import fetch
 
 from sara_sdk.common.session import Session
@@ -60,27 +63,20 @@ def retrieve(uuid: str, session: Session = None):
     result = _retrieve(RESOURCE, uuid, session=session)
     return result
 
-def create(name: str, locality: str, type: str, session: Session = None):
+def create(model: Dict, session: Session = None):
     """
     Create a bucket
 
     Args:
-      name (str): name of the bucket
-      locality (str): locality of the bucket
-      type (str): type of the bucket ('PUBLIC' or 'PROTECTED')
+      model (Dict): model of the bucket
       session (Session): Used only if want to use a different session instead default
 
     Returns:
       result (json): returns the result of the request as json
 
     Example:
-      >>> create({ "name": "bucket-test-public", "locality": "sp_ribeirao_sy", "type": "PUBLIC" })
+      >>> create({ "name": "bucket-test-public", "locality": "sp_ribeirao_sy", "type": "PUBLIC", "all_clients_permitted": "true" })
     """
-    model = {
-      "name": name,
-      "locality": locality,
-      "type": type
-    }
     result = _create(RESOURCE, payload=model, session=session)
     return result
 
@@ -89,17 +85,15 @@ def update(uuid: str, model: Dict, session: Session = None):
     Update a bucket
 
     Args:
-      uuid (UUID): uuid of the bucket
-      name (str): name of the bucket
-      locality (str): locality of the bucket
-      type (str): type of the bucket ('PUBLIC' or 'PROTECTED')
+      uuid (UUID): uuid of the bucket to be updated
+      model (Dict): model of the bucket to be updated
       session (Session): Used only if want to use a different session instead default
 
     Returns:
       result (json): returns the result of the request as json
 
     Example:
-      >>> update("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", { "name": "bucket-test-public", "type": "PUBLIC" })
+      >>> update("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", { "name": "bucket-test-private-changed"})
     """
     result = _update(RESOURCE, uuid, payload=model, session=session)
     return result
@@ -121,7 +115,7 @@ def delete(uuid: str, session: Session = None):
     result = _delete(RESOURCE, uuid, session=session)
     return result
 
-def upload(uuid: str, session: Session = None):
+def upload(uuid: str, path: str, file: BufferedReader, session: Session = None):
     """
     Upload a file to a bucket
 
@@ -133,12 +127,20 @@ def upload(uuid: str, session: Session = None):
       result (json): returns the result of the request as json
 
     Example:
-      >>> upload("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", file=open("test.txt", "rb"))
+      >>> upload("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", path="folder" file=open("test-file.txt", "rb"))
     """
+    model = {
+        "key": "{}/{}".format(path, file.name)
+    }
+    outromodel = {
+        "file": file
+    }
     result = fetch(
-        RESOURCE+"/"+uuid+"/upload",
+        path="{}/{}/upload".format(RESOURCE, uuid),
         session=session,
-        method="POST"
+        query=model,
+        payload=outromodel,
+        method=post
     )
     return result
 
@@ -159,11 +161,11 @@ def download(uuid: str, session: Session = None):
     result = fetch(
         RESOURCE+"/"+uuid+"/download",
         session=session,
-        method="GET"
+        method=get
     )
     return result
 
-def create_folder(name: str, session: Session = None):
+def create_folder(uuid: str, name: str, session: Session = None):
     """
     Create a folder in a bucket
 
@@ -176,12 +178,12 @@ def create_folder(name: str, session: Session = None):
       result (json): returns the result of the request as json
 
     Example:
-      >>> create_folder("test")
+      >>> create_folder("e3ba0074-44db-4ac7-b826-d1840fc73b25", "test-folder")
     """
     model = {
-      "name": name
+      "folder": name
     }
-    result = _create(RESOURCE+"/"+name, payload=model, session=session)
+    result = fetch(path="{}/{}/create_folder".format(RESOURCE, uuid), query=model, session=session, method=post)
     return result
 
 def delete_object(key: str, session: Session = None):
