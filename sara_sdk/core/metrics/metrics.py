@@ -7,25 +7,29 @@ from requests import post
 RESOURCE = "metrics"
 
 
-def retrieve(measurement: str, range: str, filters: Dict, session: Session = None, **kwargs):
+def retrieve(measurement: str, range: str, filters: Dict = None, options: Dict = None, groups: list[str] = None, session: Session = None, **kwargs):
     """
     Retrieve a metric by measurement, range and body
     Args:
       measurement (string): Measurement name
       range (string): Measurement range
-      body (Dict): A dictionary with the data the will be used on metric
+      filters (Dict): A dictionary with the data the will be used on metric (optional) assisted, robot
+      options (Dict): A dictionary with the options the will be used on metric (optional) window, function, empty
+      groups (list[str]): A list with the groups the will be used on metric (optional)
       session (Session): Used only if want to use a different session instead default
       filters (Any): filters to pass to filter the list of metrics
     Returns:
       result (json): returns the result of the request as json
     Example:
-      >>> retrieve("f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+      >>> retrieve("missions_v2_status", "start:-5m", {"locality": "locality_slug"}, {"window": "1m"}, ["group_name"])
     """
     body = {
         "filters": filters,
         "range": range,
-        "measurement": measurement
+        "measurement": measurement,
+        "options": options,
+        "groups": groups
     }
     result = fetch(method=post, path="{}/{}".format(RESOURCE,
                    measurement), session=session, payload=body, **kwargs)
-    return result
+    return result.json()
