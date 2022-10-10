@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 from .common.session import Session
-from .core import iam, missions, metrics, webhook
+from .core import iam, missions, metrics, webhook, telemetry
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 __timeout__ = 15
 
 load_dotenv()
