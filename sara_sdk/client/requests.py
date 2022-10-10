@@ -92,7 +92,6 @@ def fetch(method, path, payload=None, query=None, session=None, version="v1"):
 
     body = payload
     bearer_token = "Bearer {token}".format(token=session.access_token)
-
     try:
         request = method(
             url=url,
