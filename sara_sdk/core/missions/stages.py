@@ -112,3 +112,83 @@ def delete(uuid: str, session: Session = None):
     """
     result = _delete(RESOURCE, id=uuid, session=session, version="v2")
     return result
+
+
+def list_steps(stage: str, session: Session = None, **filters):
+    """
+    List a array of steps of one stage
+
+    Args:
+      stage (string): stage uuid to retrieve
+      session (Session): Used only if want to use a different session instead default
+      filters (Any): filters to pass to filter the list of steps
+
+    Returns:
+      result (json): returns the result of the request as json
+
+    Example:
+      >>> list_steps("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", page=1,page_size=10,name="step name")
+    """
+    result = _list(resource="{}/{}/steps".format(RESOURCE, stage),
+                   session=session, version="v2", **filters)
+    return result
+
+
+def retrieve_steps(stage: str, step: str, session: Session = None):
+    """
+    Retrieve a step of one stage by uuid
+
+    Args:
+      stage (string): stage uuid to retrieve
+      step (string): step uuid to retrieve
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of the request as json
+
+    Example:
+      >>> retrieve_step("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", "f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+    """
+    result = _retrieve(resource="{}/{}/steps".format(RESOURCE,
+                       stage), id=step, session=session, version="v2")
+    return result
+
+
+def list_params(stage: str, session: Session = None, **filters):
+    """
+    List a array of params of one stage
+
+    Args:
+      stage (string): stage uuid to retrieve
+      session (Session): Used only if want to use a different session instead default
+      filters (Any): filters to pass to filter the list of params
+
+    Returns:
+      result (json): returns the result of the request as json
+
+    Example:
+      >>> list_params("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", page=1,page_size=10,name="param name")
+    """
+    result = _list(resource="{}/{}/params".format(RESOURCE, stage),
+                   session=session, version="v2", **filters)
+    return result
+
+
+def retrieve_params(stage: str, param: str, session: Session = None):
+    """
+    Retrieve a param of one stage by uuid
+
+    Args:
+      stage (string): stage uuid to retrieve
+      param (string): param uuid to retrieve
+      session (Session): Used only if want to use a different session instead default
+
+    Returns:
+      result (json): returns the result of the request as json
+
+    Example:
+      >>> retrieve_params("f8b85a7a-4540-4d46-a2ed-00e6134ee84a", "f8b85a7a-4540-4d46-a2ed-00e6134ee84a")
+    """
+    result = _retrieve(resource="{}/{}/params".format(RESOURCE,
+                       stage), id=param, session=session, version="v2")
+    return result
