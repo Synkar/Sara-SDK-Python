@@ -92,7 +92,6 @@ def fetch(method, path, payload=None, query=None, session=None, version="v1"):
 
     body = payload
     bearer_token = "Bearer {token}".format(token=session.access_token)
-
     try:
         request = method(
             url=url,
@@ -117,7 +116,7 @@ def fetch(method, path, payload=None, query=None, session=None, version="v1"):
     if response.status == 400:
         raise Error(response.status, response.json()["detail"])
     if response.status == 401:
-        if(session.attemps == 0):
+        if (session.attemps == 0):
             session.attemps += 1
             session.auth()
             fetch(method=method, path=path, payload=payload,
