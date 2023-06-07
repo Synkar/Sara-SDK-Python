@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 from .common.session import Session
-from .core import iam, missions, metrics, webhook, telemetry
+from .core import iam, missions, metrics, webhook, telemetry, hivemind
 
 __version__ = "1.1.0"
 __timeout__ = 15
