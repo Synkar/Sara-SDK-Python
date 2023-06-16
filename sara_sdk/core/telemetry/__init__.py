@@ -1,4 +1,4 @@
 
 from . import telemetry
 
-from .telemetry import listDiagnostics, robotIsOnline, connection, srsFeedback
+from .telemetry import listDiagnostics, isOnline, connection, srsFeedback
