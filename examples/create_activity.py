@@ -5,7 +5,7 @@ import itertools
 import os
 
 """
-This example shows how to list all actions of robots
+This example shows how to create a activity in srs
 
 We use dotenv to load the environment variables from the .env file
 """
