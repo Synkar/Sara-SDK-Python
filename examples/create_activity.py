@@ -19,12 +19,6 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # Auth is necessary to generate access_token from access_key and secret_key
 sara_sdk.auth(ACCESS_KEY, SECRET_KEY)
-"""
-sara_sdk.srs.activities.create(
-    "type": "U",
-    "robots": '["0d9194fc-dc3a-4c75-af5d-0bd8537841ac"]',
-    "files": '["internet_info.json"]'
-    })
-"""
+
 sara_sdk.srs.activities.create(relationship="7fe05ab1-f8cb-44a3-8d6f-14bfd647eba3", type="U", robots=["0d9194fc-dc3a-4c75-af5d-0bd8537841ac"], files=["internet_info.json"])
 
