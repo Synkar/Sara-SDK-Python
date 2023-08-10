@@ -7,7 +7,7 @@ from requests import post
 RESOURCE = "metrics"
 
 
-def retrieve(measurement: str, range: str, filters: Dict = None, options: Dict = None, groups: list[str] = None, session: Session = None, **kwargs):
+def retrieve(measurement: str, range: str, filters: Dict = None, options: Dict = None, groups: list = None, session: Session = None, **kwargs):
     """
     Retrieve a metric by measurement, range and body
     Args:
