@@ -2,7 +2,7 @@ from requests import get, post, delete as _delete, patch
 from ..client.requests import fetch
 
 
-def retrieve(resource, id, session=None,version="v1", **kwargs):
+def retrieve(resource, id, session=None, version="v1", **kwargs):
     """
     Retrieve function to request a GET passing id to the API
 
@@ -20,7 +20,8 @@ def retrieve(resource, id, session=None,version="v1", **kwargs):
         >>> retrieve(resource="iam/robots", "09594aae-7e88-4c8b-b4e5-095c6e785509")
     """
     path = "{endpoint}/{id}".format(endpoint=resource, id=id)
-    json = fetch(method=get, path=path, query=kwargs, version=version, session=session).json()
+    json = fetch(method=get, path=path, query=kwargs,
+                 version=version, session=session).json()
     return json
 
 

@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sara-sdk"
-version = "1.0.0"
+version = "1.1.1"
 description = "Synkar SARA REST API SDK"
 readme = "README.md"
 authors = [{ name = "Synkar Autonomous", email = "synkar@synkar.com" }]
